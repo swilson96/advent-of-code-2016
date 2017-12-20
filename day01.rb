@@ -68,15 +68,17 @@ class Point
 end
 
 class State
-  attr_accessor :direction, :position
+  attr_accessor :direction, :position, :first_visited_twice, :visited
 
   def initialize
+    @first_visited_twice = nil
     @direction = Direction::UP
     @position = Point.new 0, 0
+    @visited = [@position]
   end
 
   def to_s
-    "#{Direction.print @direction} #{@position}"
+    "#{Direction.print @direction} #{@position}, first visited twice: #{@first_visited_twice}"
   end
 end
 
@@ -91,8 +93,16 @@ class Instruction
 
   def apply(state)
     state.direction = turn state.direction
-    state.position = state.position.move(state.direction, @distance)
-    state
+
+    @distance.times do
+      state.position = state.position.move(state.direction, 1)
+
+      if (state.visited.include? state.position) && state.first_visited_twice.nil?
+        state.first_visited_twice = state.position
+      end
+
+      state.visited << state.position
+    end
   end
 
   def turn(direction)
@@ -106,11 +116,23 @@ end
 
 class Walker
   def initialize(input)
+    @first_twice = nil
     @instructions = input.split(/,/).map{|l| Instruction.new(l.chomp.strip)}
-    @destination = @instructions.inject(State.new){|state,instruction| instruction.apply(state)}.position
+
+    state = State.new
+    @instructions.each do |instruction|
+      instruction.apply state
+    end
+    @destination = state.position
+    @first_twice = state.first_visited_twice
   end
 
   def distance
     @destination.x.abs + @destination.y.abs
+  end
+
+  def real_distance
+    puts 'nothign was visited twice!' if @first_twice.nil?
+    @first_twice.x.abs + @first_twice.y.abs
   end
 end

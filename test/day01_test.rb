@@ -26,8 +26,13 @@ class Day01Test < Test::Unit::TestCase
     assert_equal(209, walker.distance)
   end
 
+  def test_from_q_part_2
+    walker = Walker.new'R8, R4, R4, R8'
+    assert_equal(4, walker.real_distance)
+  end
   def test_part_2
-
+    walker = Walker.new REAL_INPUT
+    puts "answer: #{walker.real_distance}"
   end
 
 end
