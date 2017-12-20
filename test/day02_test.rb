@@ -16,10 +16,20 @@ UUUUD
   end
 
   def test_part_1
-    puts "answer: #{input_to_numberstring REAL_INPUT}"
+    puts "answer 1: #{input_to_numberstring REAL_INPUT}"
+  end
+
+  def test_from_q_part_2
+    result = input_to_numberstring_2 'ULL
+RRDDD
+LURDL
+UUUUD
+'
+    assert_equal('5DB3', result)
   end
 
   def test_part_2
+    puts "answer 2: #{input_to_numberstring_2 REAL_INPUT}"
   end
 
 end
