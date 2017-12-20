@@ -132,7 +132,7 @@ class Walker
   end
 
   def real_distance
-    puts 'nothign was visited twice!' if @first_twice.nil?
+    puts 'nothing was visited twice!' if @first_twice.nil?
     @first_twice.x.abs + @first_twice.y.abs
   end
 end
